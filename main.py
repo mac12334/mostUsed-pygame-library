@@ -32,7 +32,7 @@ class Player(mostused.entity.Entity):
         self.rect = image.get_rect(topleft=pos)
         self.speed = 5
 
-        self.obstacle = pygame.Rect(50, 50, 50, 50)
+        self.obstacle = pygame.Rect(250, 250, 50, 50)
     
     def update(self) -> None:
         dx, dy = 0, 0
