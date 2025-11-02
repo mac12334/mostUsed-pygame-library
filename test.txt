@@ -1,0 +1,3 @@
+name=dog val=2 alive=True anim=None
+name=dog val=2 alive=True anim=None
+name=dog val=2 alive=True anim=None

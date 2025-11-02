@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: mostused
+Version: 1.11
+Summary: to reduce recreating code and to make my life easier
+Author: mackai curtis
+Author-email: mac.cheese324@gmail.com
+Requires: pygame
