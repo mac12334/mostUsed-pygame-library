@@ -1,3 +1,2 @@
-name=dog val=2 alive=True anim=None
-name=dog val=2 alive=True anim=None
-name=dog val=2 alive=True anim=None
+test:1,2,3,4 test2:1,
+test:12,3,4 test2:4,

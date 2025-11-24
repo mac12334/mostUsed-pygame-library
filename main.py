@@ -23,6 +23,10 @@ for y in range(10):
 
 tiles = mostused.image.tileset(surf, (60, 60), (10, 10), (255, 0, 0))
 
+data = mostused.convert_to_dictionary.get_data("test.txt", ":", " ")
+print(data)
+mostused.convert_to_dictionary.write_data("test.txt", data, ":", " ")
+
 index = 0
 
 class Player(mostused.entity.Entity):
