@@ -64,13 +64,32 @@ player_image.fill((255, 0, 0))
 
 p = Player(player_image, (300, 300))
 
+lookup_table = pygame.image.load("test_assets/image-test.png").convert_alpha()
+
+spritesheet = mostused.image.get_image_from_lookup_table(lookup_table, pygame.Rect(16, 0, 16, 32))
+animation = mostused.image.spritesheet(spritesheet, 2, (16, 16), False, scale = 2)
+
+coffin = mostused.image.get_image_from_lookup_table(lookup_table, pygame.Rect(0, 0, 16, 32), scale=2)
+bowl = mostused.image.get_image_from_lookup_table(lookup_table, pygame.Rect(32, 0, 16, 16), scale=2)
+ice_cube = mostused.image.get_image_from_lookup_table(lookup_table, pygame.Rect(32, 16, 16, 16), scale=2)
+
+animation_index = 0
+
 clock = pygame.time.Clock()
+last_update = pygame.time.get_ticks()
+
+text = mostused.image.get_fitting_text(pygame.font.SysFont(pygame.font.get_default_font(), 32), 200, "this is some really long text, and is only one string")
 
 run = True
 while run:
     p.update()
 
-    win.fill((255, 255, 255))
+    current_time = pygame.time.get_ticks()
+    if current_time - last_update >= 500:
+        last_update = current_time
+        animation_index = animation_index + 1 if animation_index < len(animation) - 1 else 0
+
+    win.fill((200, 200, 200))
 
     if button.draw(win):
         index = (index + 1) % 100
@@ -82,6 +101,12 @@ while run:
         index = 0
 
     win.blit(tiles[index], (0, 0))
+
+    win.blit(coffin, (500, 500))
+    win.blit(bowl, (400, 450))
+    win.blit(ice_cube, (500, 400))
+    win.blit(animation[animation_index], (400, 400))
+    win.blit(text, (400, 0))
     p.draw(win)
 
     pygame.display.update()
