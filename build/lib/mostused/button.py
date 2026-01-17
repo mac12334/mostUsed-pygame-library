@@ -23,7 +23,7 @@ class Button:
         return False
 
 def button_from_rect(rect: pygame.Rect, color: pygame.Color | tuple[int, int, int], border: bool=False, border_color:pygame.Color | tuple[int, int, int] = pygame.Color(0, 0, 0)) -> Button:
-    surf = pygame.Surface((rect.width, rect.height))
+    surf = pygame.Surface(rect.size)
     surf.fill(color)
 
     if border:

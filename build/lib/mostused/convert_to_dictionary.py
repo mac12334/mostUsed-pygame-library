@@ -40,6 +40,30 @@ def make_dict(line: str, key_val_sep: str, sep: str) -> dict[str, any]:
     return d
 
 def get_data(file_name: str, key_val_sep: str, sep: str) -> list[dict[str, any]]:
+    """get_data
+
+    allows you to convert a text file to a list containing multiple dictionaries
+    this can be very useful for game data that needs to be packaged easily into a human readable format
+
+    syntax for data
+    int_key=1 str_key=hello-world bool_key=True none_key=None list_key=1,True,hello,None
+    level_num=2 display_text=this-is-a-nice-level easy_enabled=False image=None enemies=1,
+
+    print(get_data(file, "=", " "))
+
+    #output [{"int_key"=1, "str_key"="hello-world", "bool_key"=True, "none_key"=None, "list_key"=[1, True, "hello", None]},
+
+    #{"level_num"=2, "display_text"="this-is-a-nice-level", "easy_enabled"=False, "image"=None, "enemies"=[1]}]
+    ## Warning - you can only use 1D arrays for this function at this time
+
+    Args:
+        file_name - the path to the text file you want to read.
+        key_val_sep - this character is used to seperate the keys to their values.
+        sep - this character seperates one key value pair to the next.
+    
+    Returns:
+        A list containing dictionaries used for containing data on any application
+    """
     lines = get_lines(file_name)
     data = []
     for line in lines:
@@ -47,6 +71,9 @@ def get_data(file_name: str, key_val_sep: str, sep: str) -> list[dict[str, any]]
     return data
 
 def make_line(d: dict[str, any], key_val_sep: str, sep: str) -> str:
+    """
+    Warning this function is only used for another function this is not made for general purpose use
+    """
     res = ""
     for key in d:
         if type(d[key]) != list:
@@ -56,6 +83,10 @@ def make_line(d: dict[str, any], key_val_sep: str, sep: str) -> str:
     return res[:-1]
 
 def convert_list_to_string(lst: list) -> str:
+    """
+    Warning this function is used only for another function
+    and 1d lists are only supported
+    """
     if len(lst) == 1:
         return str(lst[0]) + ","
     else:

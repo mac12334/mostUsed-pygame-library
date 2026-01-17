@@ -1,12 +1,5 @@
 import pygame
 
-__all__ = [
-    "tileset",
-    "spritesheet",
-    "get_image_from_lookup_table",
-    "get_fitting_text"
-]
-
 def tileset(image: pygame.Surface, tilesize: tuple[int, int], gridsize: tuple[int, int], colorkey: pygame.Color | tuple[int, int, int] = (0, 0, 0), scale: int | float = 1) -> list[pygame.Surface]:
     tiles = []
     for y in range(gridsize[1]):
@@ -19,15 +12,16 @@ def tileset(image: pygame.Surface, tilesize: tuple[int, int], gridsize: tuple[in
             tiles.append(tile)
     return tiles
 
-def spritesheet(image: pygame.Surface, cells: int, cellsize: tuple[int, int], horizontal: bool = True, colorkey: pygame.Color | tuple[int, int, int] = (0, 0, 0), scale: int | float = 1) -> list[pygame.Surface]:
+def spritesheet(image: pygame.Surface, cells: int, cellsize: tuple[int, int], horizontal: bool = True, colorkey: pygame.Color | tuple[int, int, int] = (0, 0, 0), scale: int | float = 1, multiply_colors: bool=False) -> list[pygame.Surface]:
     animation = []
     for z in range(cells):
         cell = pygame.Surface(cellsize)
         cell.fill(colorkey)
-        if horizontal:
-            cell.blit(image, (cellsize[0] * -z, 0))
+        pos = (cellsize[0] * -z, 0) if horizontal else (0, cellsize[1] * -z)
+        if not multiply_colors:
+            cell.blit(image, pos)
         else:
-            cell.blit(image, (0, cellsize[1] * -z))
+            cell.blit(image, pos, pygame.BLEND_RGBA_MULT)
         cell.set_colorkey(colorkey)
         cell = pygame.transform.scale(cell, (cellsize[0] * scale, cellsize[1] * scale))
         animation.append(cell)
