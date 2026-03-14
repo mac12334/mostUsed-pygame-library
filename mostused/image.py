@@ -12,17 +12,15 @@ def tileset(image: pygame.Surface, tilesize: tuple[int, int], gridsize: tuple[in
             tiles.append(tile)
     return tiles
 
-def spritesheet(image: pygame.Surface, cells: int, cellsize: tuple[int, int], horizontal: bool = True, colorkey: pygame.Color | tuple[int, int, int] = (0, 0, 0), scale: int | float = 1, multiply_colors: bool=False) -> list[pygame.Surface]:
+def spritesheet(image: pygame.Surface, cells: int, cellsize: tuple[int, int], horizontal: bool = True, colorkey: pygame.Color | tuple[int, int, int] = (0, 0, 0), scale: int | float = 1, multiply_colors: bool=False, background_color: tuple[int]|None=None) -> list[pygame.Surface]:
     animation = []
     for z in range(cells):
-        cell = pygame.Surface(cellsize)
-        cell.fill(colorkey)
+        cell = pygame.Surface(cellsize, pygame.SRCALPHA, 32)
         pos = (cellsize[0] * -z, 0) if horizontal else (0, cellsize[1] * -z)
         if not multiply_colors:
             cell.blit(image, pos)
         else:
-            cell.blit(image, pos, pygame.BLEND_RGBA_MULT)
-        cell.set_colorkey(colorkey)
+            cell.blit(image, pos, special_flags=pygame.BLEND_RGBA_MULT)
         cell = pygame.transform.scale(cell, (cellsize[0] * scale, cellsize[1] * scale))
         animation.append(cell)
     return animation
@@ -58,7 +56,7 @@ def _get_height(font: pygame.font.Font, lines: list[str], line_height: int) -> i
         height += font.size(line)[1] + line_height
     return height
 
-def get_fitting_text(font: pygame.font.Font, maximum_width: int, text: str, textcolor: tuple[int]=(0,0,0), background: tuple[int]=(255,255,255)) -> pygame.Surface:
+def get_fitting_text(font: pygame.font.Font, maximum_width: int, text: str, textcolor: tuple[int]=(0,0,0), background: tuple[int]=(255,255,255), antialias: bool=True) -> pygame.Surface:
     lines = _get_lines(font, maximum_width, text)
     line_height = font.get_linesize()
     height = _get_height(font, lines, line_height)
@@ -67,7 +65,7 @@ def get_fitting_text(font: pygame.font.Font, maximum_width: int, text: str, text
 
     y = line_height / 2
     for line in lines:
-        l = font.render(line[:-1], True, textcolor)
+        l = font.render(line[:-1], antialias, textcolor)
         image.blit(l, ((maximum_width / 2) - (l.get_width() / 2), y))
         y += line_height + l.get_height()
     return image

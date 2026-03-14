@@ -12,17 +12,15 @@ def tileset(image: pygame.Surface, tilesize: tuple[int, int], gridsize: tuple[in
             tiles.append(tile)
     return tiles
 
-def spritesheet(image: pygame.Surface, cells: int, cellsize: tuple[int, int], horizontal: bool = True, colorkey: pygame.Color | tuple[int, int, int] = (0, 0, 0), scale: int | float = 1, multiply_colors: bool=False) -> list[pygame.Surface]:
+def spritesheet(image: pygame.Surface, cells: int, cellsize: tuple[int, int], horizontal: bool = True, colorkey: pygame.Color | tuple[int, int, int] = (0, 0, 0), scale: int | float = 1, multiply_colors: bool=False, background_color: tuple[int]|None=None) -> list[pygame.Surface]:
     animation = []
     for z in range(cells):
-        cell = pygame.Surface(cellsize)
-        cell.fill(colorkey)
+        cell = pygame.Surface(cellsize, pygame.SRCALPHA, 32)
         pos = (cellsize[0] * -z, 0) if horizontal else (0, cellsize[1] * -z)
         if not multiply_colors:
             cell.blit(image, pos)
         else:
-            cell.blit(image, pos, pygame.BLEND_RGBA_MULT)
-        cell.set_colorkey(colorkey)
+            cell.blit(image, pos, special_flags=pygame.BLEND_RGBA_MULT)
         cell = pygame.transform.scale(cell, (cellsize[0] * scale, cellsize[1] * scale))
         animation.append(cell)
     return animation
